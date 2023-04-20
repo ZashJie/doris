@@ -24,11 +24,11 @@ defaultDb = "regression_test"
 // init cmd like: select @@session.tx_read_only
 // at each time we connect.
 // add allowLoadLocalInfile so that the jdbc can execute mysql load data from client.
-jdbcUrl = "jdbc:mysql://127.0.0.1:9030/?useLocalSessionState=true&allowLoadLocalInfile=true"
+jdbcUrl = "jdbc:mysql://127.0.0.1:9038/?useLocalSessionState=true&allowLoadLocalInfile=true"
 jdbcUser = "root"
 jdbcPassword = ""
 
-feHttpAddress = "127.0.0.1:8030"
+feHttpAddress = "127.0.0.1:8036"
 feHttpUser = "root"
 feHttpPassword = ""
 
@@ -65,8 +65,8 @@ brokerName = "broker_name"
 
 // broker load test config
 enableBrokerLoad=true
-ak=""
-sk=""
+ak="AKIDd9RVMzIOI0V7Wlnbr9JG0WrhJk28zc2H"
+sk="4uWxMhqnW3Plz97sPjqlSUXO1RhokRuO"
 
 // jdbc connector test config
 // To enable jdbc test, you need first start mysql/pg container.
@@ -76,7 +76,6 @@ mysql_57_port=3316
 pg_14_port=5442
 oracle_11_port=1521
 sqlserver_2022_port=1433
-clickhouse_22_port=8123
 
 // hive catalog test config
 // To enable jdbc test, you need first start hive container.
@@ -122,6 +121,6 @@ extEsPort = 9200
 extEsUser = "*******"
 extEsPassword = "***********"
 
-s3Endpoint = "cos.ap-hongkong.myqcloud.com"
-s3BucketName = "doris-build-hk-1308700295"
-s3Region = "ap-hongkong"
+s3Endpoint = "cos.ap-beijing.myqcloud.com"
+s3BucketName = "test-for-student-1308700295"
+s3Region = "ap-beijing"

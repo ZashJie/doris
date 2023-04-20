@@ -28,55 +28,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum PrimitiveType {
-    INVALID_TYPE("INVALID_TYPE", -1, TPrimitiveType.INVALID_TYPE),
-    UNSUPPORTED("UNSUPPORTED_TYPE", -1, TPrimitiveType.UNSUPPORTED),
+    INVALID_TYPE("INVALID_TYPE", -1, TPrimitiveType.INVALID_TYPE, 0),
+    UNSUPPORTED("UNSUPPORTED_TYPE", -1, TPrimitiveType.UNSUPPORTED, 0),
     // NULL_TYPE - used only in LiteralPredicate and NullLiteral to make NULLs compatible
     // with all other types.
-    NULL_TYPE("NULL_TYPE", 1, TPrimitiveType.NULL_TYPE),
-    BOOLEAN("BOOLEAN", 1, TPrimitiveType.BOOLEAN),
-    TINYINT("TINYINT", 1, TPrimitiveType.TINYINT),
-    SMALLINT("SMALLINT", 2, TPrimitiveType.SMALLINT),
-    INT("INT", 4, TPrimitiveType.INT),
-    BIGINT("BIGINT", 8, TPrimitiveType.BIGINT),
-    LARGEINT("LARGEINT", 16, TPrimitiveType.LARGEINT),
-    FLOAT("FLOAT", 4, TPrimitiveType.FLOAT),
-    DOUBLE("DOUBLE", 8, TPrimitiveType.DOUBLE),
-    DATE("DATE", 16, TPrimitiveType.DATE),
-    DATETIME("DATETIME", 16, TPrimitiveType.DATETIME),
+    NULL_TYPE("NULL_TYPE", 1, TPrimitiveType.NULL_TYPE, 0),
+    BOOLEAN("BOOLEAN", 1, TPrimitiveType.BOOLEAN, 1),
+    TINYINT("TINYINT", 1, TPrimitiveType.TINYINT, 1),
+    SMALLINT("SMALLINT", 2, TPrimitiveType.SMALLINT, 1),
+    INT("INT", 4, TPrimitiveType.INT, 1),
+    BIGINT("BIGINT", 8, TPrimitiveType.BIGINT, 1),
+    LARGEINT("LARGEINT", 16, TPrimitiveType.LARGEINT, 1),
+    FLOAT("FLOAT", 4, TPrimitiveType.FLOAT, 1),
+    DOUBLE("DOUBLE", 8, TPrimitiveType.DOUBLE), 1,
+    DATE("DATE", 16, TPrimitiveType.DATE, 1),
+    DATETIME("DATETIME", 16, TPrimitiveType.DATETIME, 1),
     // Fixed length char array.
-    CHAR("CHAR", 16, TPrimitiveType.CHAR),
+    CHAR("CHAR", 16, TPrimitiveType.CHAR, 0),
     // 8-byte pointer and 4-byte length indicator (12 bytes total).
     // Aligning to 8 bytes so 16 total.
-    VARCHAR("VARCHAR", 16, TPrimitiveType.VARCHAR),
-    JSONB("JSONB", 16, TPrimitiveType.JSONB),
+    VARCHAR("VARCHAR", 16, TPrimitiveType.VARCHAR, 1),
+    JSONB("JSONB", 16, TPrimitiveType.JSONB, 1),
 
-    DECIMALV2("DECIMALV2", 16, TPrimitiveType.DECIMALV2),
-    DECIMAL32("DECIMAL32", 4, TPrimitiveType.DECIMAL32),
-    DECIMAL64("DECIMAL64", 8, TPrimitiveType.DECIMAL64),
-    DECIMAL128("DECIMAL128", 16, TPrimitiveType.DECIMAL128I),
-    TIME("TIME", 8, TPrimitiveType.TIME),
+    DECIMALV2("DECIMALV2", 16, TPrimitiveType.DECIMALV2, 1),
+    DECIMAL32("DECIMAL32", 4, TPrimitiveType.DECIMAL32, 1),
+    DECIMAL64("DECIMAL64", 8, TPrimitiveType.DECIMAL64, 1),
+    DECIMAL128("DECIMAL128", 16, TPrimitiveType.DECIMAL128I, 1),
+    TIME("TIME", 8, TPrimitiveType.TIME, 0),
     // these following types are stored as object binary in BE.
-    HLL("HLL", 16, TPrimitiveType.HLL),
-    BITMAP("BITMAP", 16, TPrimitiveType.OBJECT),
-    QUANTILE_STATE("QUANTILE_STATE", 16, TPrimitiveType.QUANTILE_STATE),
-    DATEV2("DATEV2", 4, TPrimitiveType.DATEV2),
-    DATETIMEV2("DATETIMEV2", 8, TPrimitiveType.DATETIMEV2),
-    TIMEV2("TIMEV2", 8, TPrimitiveType.TIMEV2),
-    LAMBDA_FUNCTION("LAMBDA_FUNCTION", 16, TPrimitiveType.LAMBDA_FUNCTION),
+    HLL("HLL", 16, TPrimitiveType.HLL, 1),
+    BITMAP("BITMAP", 16, TPrimitiveType.OBJECT, 1),
+    QUANTILE_STATE("QUANTILE_STATE", 16, TPrimitiveType.QUANTILE_STATE, 1),
+    DATEV2("DATEV2", 4, TPrimitiveType.DATEV2, 1),
+    DATETIMEV2("DATETIMEV2", 8, TPrimitiveType.DATETIMEV2, 1),
+    TIMEV2("TIMEV2", 8, TPrimitiveType.TIMEV2, 1),
+    LAMBDA_FUNCTION("LAMBDA_FUNCTION", 16, TPrimitiveType.LAMBDA_FUNCTION, 0),
 
     // sizeof(CollectionValue)
-    ARRAY("ARRAY", 32, TPrimitiveType.ARRAY),
-    MAP("MAP", 24, TPrimitiveType.MAP),
+    ARRAY("ARRAY", 32, TPrimitiveType.ARRAY, 1),
+    MAP("MAP", 24, TPrimitiveType.MAP, 1),
     // sizeof(StructValue)
     // 8-byte pointer and 4-byte size and 1 bytes has_null (13 bytes total)
     // Aligning to 16 bytes total.
-    STRUCT("STRUCT", 16, TPrimitiveType.STRUCT),
-    STRING("STRING", 16, TPrimitiveType.STRING),
-    VARIANT("VARIANT", 24, TPrimitiveType.VARIANT),
-    TEMPLATE("TEMPLATE", -1, TPrimitiveType.INVALID_TYPE),
+    STRUCT("STRUCT", 16, TPrimitiveType.STRUCT, 0),
+    STRING("STRING", 16, TPrimitiveType.STRING, 1),
+    VARIANT("VARIANT", 24, TPrimitiveType.VARIANT, 0),
+    TEMPLATE("TEMPLATE", -1, TPrimitiveType.INVALID_TYPE, 0),
     // Unsupported scalar types.
-    BINARY("BINARY", -1, TPrimitiveType.BINARY),
-    ALL("ALL", -1, TPrimitiveType.INVALID_TYPE);
+    BINARY("BINARY", -1, TPrimitiveType.BINARY, 0),
+    ALL("ALL", -1, TPrimitiveType.INVALID_TYPE, 0);
 
 
     private static final int DATE_INDEX_LEN = 3;
@@ -925,12 +925,15 @@ public enum PrimitiveType {
     private final String description;
     private final int slotSize;  // size of tuple slot for this type
     private final TPrimitiveType thriftType;
+    private final boolean availableInDdl;
     private boolean isTimeType = false;
+    
 
-    private PrimitiveType(String description, int slotSize, TPrimitiveType thriftType) {
+    private PrimitiveType(String description, int slotSize, TPrimitiveType thriftType, boolean availableInDdl) {
         this.description = description;
         this.slotSize = slotSize;
         this.thriftType = thriftType;
+        this.availableInDdl = availableInDdl;
     }
 
     public void setTimeType() {
